@@ -71,7 +71,7 @@ class Game:
         self.draw_texts()
 
     def draw_texts(self):
-        draw_text(self.screen, f"Coins: {self.player.coins}", 22, WHITE, 10, 10, topleft=True)
+        draw_text(self.screen, f"Coins: {self.player.coins}", 30, LIGHTBLUE, 15, 10, topleft=True)
 
     def update(self):
         self.player_group.update()

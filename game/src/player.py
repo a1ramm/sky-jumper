@@ -14,6 +14,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.centery = pos[1]
 
         self.animation = anim
+        self.canjump = True
+        self.num_of_jumps = 0
 
         # player movement
         self.speed = speed
@@ -32,10 +34,10 @@ class Player(pygame.sprite.Sprite):
     def input(self):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_d]:
+        if keys[pygame.K_d] or keys[pygame.K_RIGHT]:
             self.direction.x = 1
             self.invert_sprite = False
-        elif keys[pygame.K_a]:
+        elif keys[pygame.K_a] or keys[pygame.K_LEFT]:
             self.direction.x = -1
             self.invert_sprite = True
         else:
@@ -60,8 +62,13 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.direction.y
 
     def jump(self):
-        self.direction.y = self.jump_speed
-        self.is_junping = True
+        if self.canjump:
+            self.direction.y = self.jump_speed
+            self.is_junping = True
+        
+        self.num_of_jumps += 1
+        if self.num_of_jumps >= 2:
+            self.canjump = False
 
     def horizontal_collision(self):
         self.rect.x += self.direction.x * self.speed
@@ -86,6 +93,8 @@ class Player(pygame.sprite.Sprite):
                     self.direction.y = 0
                     self.is_junping = False
                     self.is_falling = False
+                    self.num_of_jumps = 0
+                    self.canjump = True
 
     def animation_control(self):
         self.animation.select(PLAYER_IDLE)
