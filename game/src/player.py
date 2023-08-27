@@ -2,7 +2,7 @@ import pygame
 from .config import *
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, game, anim, pos, speed, image_path, scale=SCALE) -> None:
+    def __init__(self, game, anim, pos, speed, image_path, coins=0, scale=SCALE) -> None:
         super().__init__()
         self.game = game
 
@@ -29,7 +29,7 @@ class Player(pygame.sprite.Sprite):
         self.invert_sprite = False
         self.update_time = pygame.time.get_ticks()
 
-        self.coins = 0
+        self.coins = coins
 
     def input(self):
         keys = pygame.key.get_pressed()

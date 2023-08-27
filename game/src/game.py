@@ -1,5 +1,6 @@
 import pygame
 import sys
+import requests
 
 from os import getcwd, listdir
 from random import randint, choice
@@ -47,6 +48,7 @@ class Game:
     def check_events(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                self.save_data()
                 self.game_over = True
                 pygame.quit()
                 sys.exit()
@@ -100,6 +102,9 @@ class Game:
         coin = Coin(self.coin_anim, (platform.rect.centerx, platform.rect.y - 20), scale=3)
         self.coin_group.add(coin)
     
+    def save_data(self):
+        
+
     def __load_groups(self):
         self.player_group = pygame.sprite.GroupSingle()
         self.platform_group = pygame.sprite.Group()
@@ -117,7 +122,11 @@ class Game:
         player_anim.add(PLAYER_JUMP, player_jump_spritesheet)
         player_anim.add(PLAYER_FALL, player_fall_spritesheet)
 
-        self.player = Player(game=self, anim=player_anim, pos=(SCREEN_X / 2, SCREEN_Y - 120), speed=4, image_path="assets/images/player/idle/1.png")
+        request = requests.get("http://127.0.0.1:5000/player/1")
+        request_json = request.json()
+        print(request_json)
+
+        self.player = Player(game=self, anim=player_anim, pos=(SCREEN_X / 2, SCREEN_Y - 120), speed=4, image_path="assets/images/player/idle/1.png", coins=request_json["data"]["coins"])
         self.player_group.add(self.player)
 
     def __load_bg(self):
@@ -131,7 +140,7 @@ class Game:
         self.last_plataform = self.main_platform
 
     def __load_objects(self):
-       # coin
        coin_default = Spritesheet("assets/images/coin", 180, 3)
        self.coin_anim = Animation()
        self.coin_anim.add(COIN_DEFAULT, coin_default)
+    

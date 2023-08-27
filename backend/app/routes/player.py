@@ -17,3 +17,7 @@ def register_player():
 @app.route("/player/login", methods=["POST"])
 def login_player():
     return player.login()
+
+@app.route("/player/<id>", methods=["PUT"])
+def update_player(id):
+    return player.update_player(id)

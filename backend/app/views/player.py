@@ -23,22 +23,18 @@ def get_player(id):
 
 def register():
     data = request.get_json()
-    data["password"] = generate_password_hash(data["password"])
-    print(data)
-    
+
     username = data["username"]
     email = data["email"]
     password = generate_password_hash(data["password"])
-    socre = 0
-    coins = 0
 
     try:
-        player = Player(username=username, email=email, password=password, score=socre, coins=coins)
+        player = Player(username=username, email=email, password=password)
         db.session.add(player)
         db.session.commit()
         result = player_schema.dump(player)
         return jsonify({"message": "successfully registered", "data": result}), 201
-    
+
     except Exception as e:
         return jsonify({"message": "unable to create", "error": e, "data": {}}), 500
 
@@ -60,5 +56,22 @@ def login():
 def delete_player(id):
     pass
 
+
 def update_player(id):
-    pass
+    player_obj = Player.query.filter_by(id=id).first()
+    body = request.get_json()
+
+    try:
+        if ('username' in body):
+            player_obj.name = body['username']
+        if ('email' in body):
+            player_obj.email = body['email']
+        if ('coins' in body):
+            player_obj.coins = body['coins']
+
+        db.session.add(player_obj)
+        db.session.commit()
+        return jsonify({"message": "uptadet player", "data": player_schema.dump(player_obj)})
+
+    except Exception as e:
+        return jsonify({"message": f"error: {e}", "data": {}})

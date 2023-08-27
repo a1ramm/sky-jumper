@@ -16,19 +16,16 @@ function list_in_table(json) {
         let username = document.createElement("td");
         let email = document.createElement("td");
         let coins = document.createElement("td");
-        let score = document.createElement("td");
 
         id.innerText = player.id;
         username.innerText = player.username;
         email.innerText = player.email;
         coins.innerText = player.coins;
-        score.innerText = player.score;
 
         table_row.appendChild(id);
         table_row.appendChild(username);
         table_row.appendChild(email);
         table_row.appendChild(coins);
-        table_row.appendChild(score);
 
         table_listing.appendChild(table_row);
     });

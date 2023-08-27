@@ -2,3 +2,14 @@
     width: 80%;
     margin: 30px auto;
 }
+
+#main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-title {
+    font-size: 52px;
+    margin-top: 200px;
+}
